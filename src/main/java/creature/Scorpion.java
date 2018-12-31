@@ -12,5 +12,6 @@ public class Scorpion extends Creature{
         URL url = getClass().getResource("/image/scorpion.jpg");
         this.image = new Image(url.toString());
         this.camp=MONSTER;
+        this.power = 0.6;
     }
 }

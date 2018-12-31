@@ -16,7 +16,7 @@ public class Main extends Application {
         Parent root = FXMLLoader.load(getClass().getResource("/sample.fxml"));
         Scene scene = new Scene(root,1600,932);
         scene.getStylesheets().add(this.getClass().getResource("/border.css").toExternalForm());
-        primaryStage.setTitle("Hello World");
+        primaryStage.setTitle("CalaBashFight");
         primaryStage.setScene(scene);
         primaryStage.show();
     }

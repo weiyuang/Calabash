@@ -12,5 +12,6 @@ public class Toad extends Creature {
         URL url = getClass().getResource("/image/toad.jpg");
         this.image = new Image(url.toString());
         this.camp=MONSTER;
+        this.power = 0.5;
     }
 }

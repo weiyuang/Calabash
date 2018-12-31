@@ -12,5 +12,6 @@ public class Grandpa extends Creature {
         URL url = getClass().getResource("/image/grandpa.jpg");
         this.image = new Image(url.toString());
         this.camp=HERO;
+        this.power = 0.5;
     }
 }

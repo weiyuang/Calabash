@@ -42,7 +42,7 @@ public class Controller {
     }
     @FXML
     protected void setQueue1(ActionEvent event) throws InterruptedException {
-        status = 1;
+        status = 0;
         label.setText("start");
         System.out.println("hello1");
         Global.initbattleMap();
@@ -55,23 +55,35 @@ public class Controller {
         System.out.println("xxxxx");
         fight();
     }
+
     @FXML
-    protected void setQueue2(ActionEvent event){
+    protected void setQueue2(ActionEvent event) throws InterruptedException {
+        status = 0;
         label.setText("start");
         System.out.println("hello2");
+        Global.initbattleMap();
         herolist = new HeroList();
-        monsterlist = new MonsterList();
         herolist.setQueue(2);
+        monsterlist = new MonsterList();
         monsterlist.setQueue(1);
+        setQueue();
         paintAll();
+        System.out.println("xxxxx");
         fight();
     }
 
-    private void fight() {
+    private void fight(){
+        battleground.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                if (status == 0)
+                    status = 1;
+            }
+        });
         battleground.setOnMouseMoved(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                if (status != 2) {
+                if (status == 1) {
                     for (int i = 0; i < HEIGHT; i++) {
                         for (int j = 0; j < WIDTH; j++)
                             battleMap[i][j].move();
@@ -80,7 +92,6 @@ public class Controller {
                 }
                 if (checkFinish()) {
                     status = 2;
-                    //System.out.println("end");
                     label.setText("end");
                 }
             }
@@ -167,7 +178,4 @@ public class Controller {
             battleMap[x][y] = monsterlist.List.get(i);
         }
     }
-
-
-
 }

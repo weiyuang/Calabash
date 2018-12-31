@@ -19,7 +19,6 @@ public class Calabash extends Creature {
         public int rank;
         public String path;
 
-
         private Members(String name, int rank, String path) { // 构造方法
             this.name = name;
             this.rank = rank;
@@ -36,6 +35,7 @@ public class Calabash extends Creature {
         this.image = new Image(url.toString());
         name = cala.name;
         this.camp=HERO;
+        this.power = 0.6;
     }
 }
 
