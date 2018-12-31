@@ -1,2 +1,7 @@
-# Calabash
-java final project
+
+# Java大作业 葫芦娃大战妖精 实验报告
+姓名：魏煜昂  
+学号：161220132
+
+## 项目简介
+![](pic/展示.gif)

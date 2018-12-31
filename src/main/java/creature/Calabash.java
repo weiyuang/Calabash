@@ -4,6 +4,8 @@ import javafx.scene.image.Image;
 
 import java.net.URL;
 
+import static gui.Global.HERO;
+
 public class Calabash extends Creature {
     private enum Members {
         Cala1("老大", 1, "/image/cala1.jpg"),
@@ -33,7 +35,7 @@ public class Calabash extends Creature {
         URL url = getClass().getResource(cala.path);
         this.image = new Image(url.toString());
         name = cala.name;
-        this.camp=true;
+        this.camp=HERO;
     }
 }
 

@@ -4,19 +4,19 @@ import javafx.scene.image.Image;
 
 import java.util.Random;
 
-import static gui.Global.battleMap;
-import static gui.Global.herolist;
-import static gui.Global.monsterlist;
+import static gui.Global.*;
 
 
 public class Creature {
     protected String name;
     Image image;
-    public boolean camp;//0:bad 1：good
+    public int camp;
     protected boolean state;//0：dead  1：alive
 
     public Creature() {
         name = null;
+        camp = EMPTY;
+        state = false;
     }
 
     protected Position position = new Position();
@@ -41,19 +41,55 @@ public class Creature {
         return this.position.getY();
     }
 
-    public void move(){
-        Random random = new Random();
-        int desX=getX(), desY=getY();
-        int diretion = random.nextInt(4);
-        if (diretion == 0){ desX--;}
-        else if (diretion == 1){ desY--;}
-        else if (diretion == 2){ desX++;}
-        else {desY++;}
-        if (desX<20 && desX > 0 & desY < 11 & desY > 0){
-            if(this.camp != battleMap[desX][desY].camp || battleMap[desX][desY].getName()==null) {
-                setPosition(desX,desY);
-                battleMap[desX][desY] = battleMap[getX()][getY()];
-                battleMap[getX()][getY()] = new Creature();
+    public void move() {
+        if (this.camp == MONSTER || this.camp == HERO) {
+            Random random = new Random();
+            int desX = getX(), desY = getY();
+            int diretion = random.nextInt(4);
+            if (diretion == 0) {
+                desX--;
+            } else if (diretion == 1) {
+                desY--;
+            } else if (diretion == 2) {
+                desX++;
+            } else {
+                desY++;
+            }
+            if (desX < WIDTH && desX > 0 && desY < HEIGHT && desY > 0) {
+                int preX=getX();
+                int preY=getY();
+                System.out.println("last position" + getX() + " "+ getY());
+                System.out.println("dest position" + desX+" "+desY);
+                if (this.camp == HERO) {
+                    System.out.println(this.name + "hero want move");
+                    if (battleMap[desY][desX].camp == EMPTY) {
+                        //System.out.println("hero move");
+                        this.setPosition(desX, desY);
+                        //System.out.print(battleMap[getY()][getX()].name + "放置到");
+                        battleMap[desY][desX] = this;
+                        //System.out.println(battleMap[desY][desX].name +desX+desY+ " OK");
+                        battleMap[preY][preX] = new Creature();
+                        battleMap[preY][preX].setPosition(getX(),getY());
+                        //System.out.println(battleMap[desY][desX].name +desX + desY + "是现在的位置");
+                    } else if (battleMap[desY][desX].camp == MONSTER) {
+                        //System.out.println("hero fight");
+                        battleMap[desY][desX] = new Body(desX, desY);
+                        battleMap[desY][desX].setPosition(desX,desY);
+                        //System.out.println(desX+" "+desY+" "+battleMap[desX][desY].getX()+" "+battleMap[desX][desY].getY());
+                    }
+                }
+                else if (this.camp == MONSTER)
+                {
+                    if (battleMap[desY][desX].camp == EMPTY) {
+                        setPosition(desX, desY);
+                        battleMap[desY][desX] = this;
+                        battleMap[preY][preX] = new Creature();
+                        battleMap[preY][preX].setPosition(getX(),getY());
+                    } else if (battleMap[desY][desX].camp == HERO) {
+                        battleMap[desY][desX] = new Body(desX, desY);
+                        battleMap[desY][desX].setPosition(desX,desY);
+                    }
+                }
             }
         }
     }

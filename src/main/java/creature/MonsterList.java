@@ -4,13 +4,10 @@ import java.util.ArrayList;
 
 public class MonsterList {
     public java.util.List<Creature> List =new ArrayList<Creature>();
-    private boolean camp;
     private int size;
     public MonsterList()
     {
         this.size = 8;
-        this.camp = false;
-
             Snake snake = new Snake();
             List.add(snake);
             Scorpion scorpion = new Scorpion();

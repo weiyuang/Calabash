@@ -8,11 +8,10 @@ import java.util.List;
 
 public class HeroList {
     public List<Creature> List =new ArrayList<Creature>();
-    private boolean camp;
+
     private int size;
     public HeroList() {
         this.size = 8;
-        this.camp = true;
 
         Grandpa grandpa = new Grandpa();
         List.add(grandpa);

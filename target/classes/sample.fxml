@@ -21,6 +21,7 @@
              <Menu mnemonicParsing="false" text="File">
                   <items>
                      <MenuItem mnemonicParsing="false" text="Open" />
+                  <MenuItem fx:id="backgroundMusic" mnemonicParsing="false" onAction="#playBgm" text="BackgroundMusic" />
                   </items>
              </Menu>
              <Menu mnemonicParsing="false" text="Start">
