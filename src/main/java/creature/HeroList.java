@@ -66,7 +66,7 @@ public class HeroList {
     public void move()
     {
         for (int i=0;i<List.size();i++)
-            List.get(i).randomMove();
+            List.get(i).move();
     }
 
     public Creature get(int index) { return List.get(index); }

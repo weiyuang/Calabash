@@ -4,6 +4,7 @@ import javafx.scene.image.Image;
 
 import java.util.Random;
 
+import static gui.Global.battleMap;
 import static gui.Global.herolist;
 import static gui.Global.monsterlist;
 
@@ -11,7 +12,7 @@ import static gui.Global.monsterlist;
 public class Creature {
     protected String name;
     Image image;
-    protected boolean camp;//0:bad 1：good
+    public boolean camp;//0:bad 1：good
     protected boolean state;//0：dead  1：alive
 
     public Creature() {
@@ -40,7 +41,23 @@ public class Creature {
         return this.position.getY();
     }
 
-    protected void randomMove() {
+    public void move(){
+        Random random = new Random();
+        int desX=getX(), desY=getY();
+        int diretion = random.nextInt(4);
+        if (diretion == 0){ desX--;}
+        else if (diretion == 1){ desY--;}
+        else if (diretion == 2){ desX++;}
+        else {desY++;}
+        if (desX<20 && desX > 0 & desY < 11 & desY > 0){
+            if(this.camp != battleMap[desX][desY].camp || battleMap[desX][desY].getName()==null) {
+                setPosition(desX,desY);
+                battleMap[desX][desY] = battleMap[getX()][getY()];
+                battleMap[getX()][getY()] = new Creature();
+            }
+        }
+    }
+    /*public void randomMove() {
         Random random = new Random();
         int diretion = random.nextInt(4);//0,左，1，上，2，右，3，下
         boolean isKill = false;
@@ -95,7 +112,7 @@ public class Creature {
             herolist.killPoistion(getX(),getY());
 
         }
-    }
+    }*/
 
     /*protected void randomMove() {
         Random random = new Random();

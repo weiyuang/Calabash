@@ -48,7 +48,7 @@ public class MonsterList {
     public void move()
     {
         for (int i=0;i<List.size();i++)
-            List.get(i).randomMove();
+            List.get(i).move();
     }
 
     public void killPoistion(int x, int y) {

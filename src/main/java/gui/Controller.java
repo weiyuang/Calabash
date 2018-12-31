@@ -18,10 +18,8 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
 
-
-import static gui.Global.herolist;
-import static gui.Global.monsterlist;
-import static gui.Global.status;
+import static gui.Global.*;
+import static java.lang.Thread.sleep;
 
 public class Controller {
     @FXML
@@ -35,14 +33,18 @@ public class Controller {
     @FXML
     private BorderPane rootpane;
     @FXML
-    protected void setQueue1(ActionEvent event){
+    protected void setQueue1(ActionEvent event) throws InterruptedException {
+        status = 1;
         label.setText("start");
         System.out.println("hello1");
+        Global.initbattleMap();
         herolist = new HeroList();
         herolist.setQueue(1);
         monsterlist = new MonsterList();
         monsterlist.setQueue(1);
+        setQueue();
         paintAll();
+        System.out.println("xxxxx");
         fight();
     }
     @FXML
@@ -62,11 +64,22 @@ public class Controller {
             @Override
             public void handle(MouseEvent event) {
                 //System.out.println("move!!!!!!");
-                herolist.move();
+                //herolist.move();
                 //System.out.println("done");
-                monsterlist.move();
-                paintAll();
-                if (monsterlist.List.isEmpty() || herolist.List.isEmpty()) {
+                //monsterlist.move();
+                System.out.println("moving");
+                if(status!=2) {
+                    for (int i = 0; i < 20; i++)
+                        for (int j = 0; j < 11; j++)
+                            if (battleMap[i][j].getName() != null) {
+                                battleMap[i][j].move();
+                            }
+                    paintAll();
+                }
+
+
+
+                if (checkFinish()) {
                     status = 2;
                     System.out.println("end");
                     label.setText("end");
@@ -75,14 +88,37 @@ public class Controller {
         });
     }
 
+    private boolean checkFinish() {
+        boolean heroflag = false;//if still alive
+        boolean monsterflag = false;
+        for (int i = 0; i < 20; i++)
+            for (int j = 0; j < 11; j++)
+                if (battleMap[i][j].getName() != null && battleMap[i][j].camp == false)
+                    monsterflag = true;
+        for (int i = 0; i < 20; i++)
+            for (int j = 0; j < 11; j++)
+                if (battleMap[i][j].getName() != null && battleMap[i][j].camp == true)
+                    heroflag = true;
+
+        if (!monsterflag || !heroflag)
+            return true;
+        else return false;
+    }
+
 
     private void paintAll()
     {
         clearAll();
-        for (int i=0;i < herolist.List.size();i++)
+        for (int i=0;i<20;i++)
+            for (int j=0;j<11;j++) {
+                if (battleMap[i][j].getName()!=null) {
+                    setOneImage(battleMap[i][j].getImage(),battleMap[i][j].getX(),battleMap[i][j].getY());;
+                }
+            }
+        /*for (int i=0;i < herolist.List.size();i++)
         { setOneImage(herolist.get(i).getImage(),herolist.get(i).getX(),herolist.get(i).getY());; }
         for (int i=0;i < monsterlist.List.size();i++)
-        { setOneImage(monsterlist.get(i).getImage(),monsterlist.get(i).getX(),monsterlist.get(i).getY());; }
+        { setOneImage(monsterlist.get(i).getImage(),monsterlist.get(i).getX(),monsterlist.get(i).getY());; }*/
     }
 
     private void setOneImage(Image image, int x, int y)
@@ -98,6 +134,19 @@ public class Controller {
         Node node = battleground.getChildren().get(0);
         battleground.getChildren().clear();
         battleground.getChildren().add(node);
+    }
+
+    private void setQueue(){
+        for (int i=0;i<herolist.List.size();i++){
+            int x = herolist.List.get(i).getX();
+            int y = herolist.List.get(i).getY();
+            battleMap[x][y] = herolist.List.get(i);
+        }
+        for (int i=0;i<monsterlist.List.size();i++){
+            int x = monsterlist.List.get(i).getX();
+            int y = monsterlist.List.get(i).getY();
+            battleMap[x][y] = monsterlist.List.get(i);
+        }
     }
 
 
